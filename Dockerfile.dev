@@ -1,0 +1,31 @@
+# TaoCore Development Docker Image
+# Includes dev dependencies for testing and linting
+
+FROM python:3.9.25-slim
+
+WORKDIR /app
+
+# Install system dependencies
+RUN apt-get update && apt-get install -y \
+    git \
+    make \
+    && rm -rf /var/lib/apt/lists/*
+
+# Install uv
+COPY --from=ghcr.io/astral-sh/uv:latest /uv /usr/local/bin/uv
+
+# Copy dependency files
+COPY pyproject.toml uv.lock ./
+
+# Install all dependencies including dev
+RUN uv sync --frozen
+
+# Copy source code
+COPY . .
+
+# Set PATH to use virtual environment
+ENV PATH="/app/.venv/bin:$PATH"
+ENV PYTHONPATH="/app/src:$PYTHONPATH"
+
+# Default command: bash for interactive development
+CMD ["/bin/bash"]
