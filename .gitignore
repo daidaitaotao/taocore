@@ -22,3 +22,4 @@ coverage.xml
 
 # PyPI credentials (never commit!)
 .pypirc
+.github/workflows/test.yml
