@@ -10,7 +10,7 @@ from .metrics import (
     HubMetric,
     CompositeMetric,
 )
-from .solvers import EquilibriumSolver, EquilibriumResult
+from .solvers import EquilibriumSolver, EquilibriumResult, ConvergenceReason
 from .policies import Decider, Decision
 
 __version__ = "0.1.0"
@@ -29,6 +29,7 @@ __all__ = [
     "CompositeMetric",
     "EquilibriumSolver",
     "EquilibriumResult",
+    "ConvergenceReason",
     "Decider",
     "Decision",
 ]

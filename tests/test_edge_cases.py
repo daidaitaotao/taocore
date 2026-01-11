@@ -135,7 +135,7 @@ def test_equilibrium_already_converged():
 
 
 def test_equilibrium_no_convergence():
-    """Test equilibrium solver that doesn't converge."""
+    """Test equilibrium solver that doesn't converge (RFC-3: detects oscillation)."""
 
     def diverging_update(state: StateVector) -> StateVector:
         """Update that oscillates."""
@@ -147,8 +147,10 @@ def test_equilibrium_no_convergence():
     result = solver.solve(initial, diverging_update)
 
     assert not result.converged
-    assert result.iterations == 10
-    assert len(result.residuals) == 10
+    # RFC-3: Should detect oscillation early, not run to max iterations
+    assert result.oscillation_detected
+    assert result.iterations < 10
+    assert len(result.residuals) == result.iterations
 
 
 def test_equilibrium_very_large_values():
