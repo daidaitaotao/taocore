@@ -27,6 +27,10 @@ class Graph:
         if edge.source not in self._adjacency:
             self._adjacency[edge.source] = set()
         self._adjacency[edge.source].add(edge.target)
+        if not edge.directed:
+            if edge.target not in self._adjacency:
+                self._adjacency[edge.target] = set()
+            self._adjacency[edge.target].add(edge.source)
 
     def get_node(self, node_id: Hashable) -> Optional[Node]:
         """Retrieve node by ID."""

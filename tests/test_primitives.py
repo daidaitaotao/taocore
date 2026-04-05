@@ -194,3 +194,14 @@ def test_graph_subgraph_without_edges():
 
     assert len(subg.nodes()) == 2
     assert len(subg.edges()) == 0
+
+
+def test_graph_undirected_edge():
+    """Test undirected edge adds reverse adjacency."""
+    graph = Graph()
+    graph.add_node(Node("a"))
+    graph.add_node(Node("b"))
+    graph.add_edge(Edge("a", "b", directed=False))
+
+    assert "b" in graph.neighbors("a")
+    assert "a" in graph.neighbors("b")

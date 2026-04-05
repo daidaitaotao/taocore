@@ -39,6 +39,9 @@ class BalanceMetric(Metric):
                 # Distance from nearest bound
                 dist = min(abs(value - min_val), abs(value - max_val))
                 range_size = max_val - min_val
-                scores.append(max(0.0, 1.0 - dist / range_size))
+                if range_size == 0:
+                    scores.append(0.0)
+                else:
+                    scores.append(max(0.0, 1.0 - dist / range_size))
 
         return sum(scores) / len(scores) if scores else 1.0

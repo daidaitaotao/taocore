@@ -68,6 +68,14 @@ def test_state_vector_distance_to_self():
     assert distance == 0.0
 
 
+def test_state_vector_key_mismatch():
+    """Test dict-based state vectors with mismatched keys."""
+    s1 = StateVector({"a": 1.0, "b": 2.0})
+    s2 = StateVector({"a": 1.0, "c": 2.0})
+    with pytest.raises(ValueError):
+        _ = s1.distance(s2)
+
+
 def test_balance_metric_empty_values():
     """Test balance metric with empty values."""
     metric = BalanceMetric(bounds={"x": (0.0, 10.0)})
@@ -87,6 +95,13 @@ def test_balance_metric_multiple_violations():
     metric = BalanceMetric(bounds={"x": (0.0, 10.0), "y": (0.0, 5.0)})
     score = metric.compute({"x": 20.0, "y": 10.0})
     assert score < 1.0
+
+
+def test_balance_metric_zero_range():
+    """Test balance metric with zero-width bounds."""
+    metric = BalanceMetric(bounds={"x": (1.0, 1.0)})
+    score = metric.compute({"x": 2.0})
+    assert score == 0.0
 
 
 def test_flow_metric_single_state():

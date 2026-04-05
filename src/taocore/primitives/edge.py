@@ -12,12 +12,14 @@ class Edge:
         source: Hashable,
         target: Hashable,
         weight: float = 1.0,
+        directed: bool = True,
         timestamp: Optional[float] = None,
         decay_rate: float = 0.0,
     ):
         self.source = source
         self.target = target
         self.weight = weight
+        self.directed = directed
         self.timestamp = timestamp
         self.decay_rate = decay_rate
 
@@ -74,6 +76,8 @@ class Edge:
             f"target={self.target!r}",
             f"weight={self.weight}",
         ]
+        if not self.directed:
+            parts.append("directed=False")
         if self.timestamp is not None:
             parts.append(f"timestamp={self.timestamp}")
         if self.decay_rate > 0:

@@ -227,17 +227,22 @@ class HubMetric(Metric):
         pagerank = {node_id: 1.0 / n for node_id in nodes}
 
         # Compute outdegrees
-        outdegree = {
-            node_id: max(len(graph.neighbors(node_id)), 1) for node_id in nodes
-        }
+        outdegree = {node_id: len(graph.neighbors(node_id)) for node_id in nodes}
 
         # Power iteration
         for iteration in range(self.max_iterations):
             new_pagerank = {}
 
+            # Distribute rank from sink nodes (no outgoing edges)
+            sink_rank = sum(
+                pagerank[node_id] for node_id in nodes if outdegree[node_id] == 0
+            )
+
             for node_id in nodes:
                 # Base probability (random jump)
                 rank = (1.0 - self.damping) / n
+                # Spread sink rank uniformly
+                rank += self.damping * sink_rank / n
 
                 # Add contributions from incoming edges
                 for neighbor_id in nodes:

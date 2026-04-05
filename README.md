@@ -510,3 +510,17 @@ If you use TaoCore in your research, please cite:
 **Built with ❤️ by the TaoCore team**
 
 *Seeking equilibrium in complex systems, one fixed point at a time.*
+## TaoCore Human CLI (Companion)
+
+If you are using TaoCore for human behavior pipelines, the companion package `taocore-human` exposes a minimal CLI that OpenClaw can call via `exec`:
+
+```bash
+cd /Users/dadatoto/taocore-human
+python -m pip install -e .
+
+taocore-human photo-folder /path/to/photos
+taocore-human video /path/to/video.mp4
+```
+
+It returns JSON to stdout or `--output <file>`.
+
